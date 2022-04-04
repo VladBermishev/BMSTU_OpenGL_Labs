@@ -1,5 +1,5 @@
 #pragma once
-#include "Types/Vector2i.h"
+#include "GLLib.h"
 #include <string>
 namespace GLGraphics{
     class WindowInitParams{

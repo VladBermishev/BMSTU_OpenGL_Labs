@@ -1,6 +1,5 @@
-#include "stdlib.h"
-#include "../GLLib/GLLib.h"
-
+#include <cstdlib>
+#include "GLLib/GLLib.h"
 template<typename WinInitParams>
 class Lab3Window : public GLGraphics::Window<WinInitParams> {
     constexpr const static GLdouble theta = 35.26, phi = 45;

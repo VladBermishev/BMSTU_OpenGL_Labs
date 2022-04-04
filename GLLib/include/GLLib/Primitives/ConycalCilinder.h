@@ -4,7 +4,7 @@
 #include "Object.h"
 #include "../Types/Vertex3.h"
 #include <cstdint>
-#include "math.h"
+#include <cmath>
 
 namespace GLGraphics{
     class ConycalCilinder: public GLGraphics::Object{

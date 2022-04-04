@@ -5,13 +5,14 @@
 #include "GL/gl.h"
 #include "GLFW/glfw3.h"
 #include <vector>
-#include <unordered_map>
-#include <functional>
+#include "Utils/Timer.h"
+
 namespace GLGraphics{
     template<typename WinInitParams>
     class Window{
         GLFWwindow* _window;
         std::vector<Object*> _objects_pull;
+        Timer _timer;
     public:
         explicit Window(const WinInitParams& params){
             InitializeWindow(params);

@@ -1,4 +1,4 @@
-#include "../GLLib/GLLib.h"
+#include "../GLLib/include/GLLib/GLLib.h"
 template<typename WinInitParams>
 class Lab1Window : public GLGraphics::Window<WinInitParams> {
     GLGraphics::Circle _circle;
@@ -14,14 +14,14 @@ public:
     inline static void KeyCallback(GLFWwindow *window, const int key, const int scancode, const int action, const int mods) {
         auto *m_window = (Lab1Window *) (glfwGetWindowUserPointer(window));
         if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) { m_window->_circle.SetColor(1, 1, 0); }
-        if (key == GLFW_KEY_W && action == GLFW_PRESS) { m_window->_circle.Move(0.f, 0.05f); }
-        if (key == GLFW_KEY_W && action == GLFW_RELEASE) { m_window->_circle.Move(0.f, -0.05f); }
-        if (key == GLFW_KEY_A && action == GLFW_PRESS) { m_window->_circle.Move(-0.05f, 0.0f); }
-        if (key == GLFW_KEY_A && action == GLFW_RELEASE) { m_window->_circle.Move(0.05f, 0.0f); }
-        if (key == GLFW_KEY_S && action == GLFW_PRESS) { m_window->_circle.Move(0.f, -0.05f); }
-        if (key == GLFW_KEY_S && action == GLFW_RELEASE) { m_window->_circle.Move(0.f, 0.05f); }
-        if (key == GLFW_KEY_D && action == GLFW_PRESS) { m_window->_circle.Move(0.05f, 0.f); }
-        if (key == GLFW_KEY_D && action == GLFW_RELEASE) { m_window->_circle.Move(-0.05f, 0.f); }
+        if (key == GLFW_KEY_W && action == GLFW_PRESS) { m_window->_circle.ModelViewTranslate(0.f, 0.05f,0.f); }
+        if (key == GLFW_KEY_W && action == GLFW_RELEASE) { m_window->_circle.ModelViewTranslate(0.f, -0.05f,0); }
+        if (key == GLFW_KEY_A && action == GLFW_PRESS) { m_window->_circle.ModelViewTranslate(-0.05f, 0.0f,0); }
+        if (key == GLFW_KEY_A && action == GLFW_RELEASE) { m_window->_circle.ModelViewTranslate(0.05f, 0.0f,0); }
+        if (key == GLFW_KEY_S && action == GLFW_PRESS) { m_window->_circle.ModelViewTranslate(0.f, -0.05f,0); }
+        if (key == GLFW_KEY_S && action == GLFW_RELEASE) { m_window->_circle.ModelViewTranslate(0.f, 0.05f,0); }
+        if (key == GLFW_KEY_D && action == GLFW_PRESS) { m_window->_circle.ModelViewTranslate(0.05f, 0.f,0); }
+        if (key == GLFW_KEY_D && action == GLFW_RELEASE) { m_window->_circle.ModelViewTranslate(-0.05f, 0.f,0); }
     }
 
 protected:
