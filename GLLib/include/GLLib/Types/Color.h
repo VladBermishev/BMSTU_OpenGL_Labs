@@ -1,5 +1,5 @@
 #pragma once
-#import "Vertex3.h"
+#include "Vertex3.h"
 namespace GLGraphics{
     class Color{
         const Vertex3 _color;

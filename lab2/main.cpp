@@ -78,15 +78,19 @@ protected:
 class Lab2WindowInitParams: public GLGraphics::WindowInitParams{
 public:
     Lab2WindowInitParams() = default;
-    Lab2WindowInitParams(const std::string& title, const GLGraphics::Vector2i& size): GLGraphics::WindowInitParams(title,size){}
+    Lab2WindowInitParams(const std::string& title, const GLGraphics::Vector2ui& size): GLGraphics::WindowInitParams(title,size){}
     void GLinit() const noexcept{
+        if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
+            //LOG SMTH
+            exit(-1);
+        }
         glEnable(GL_DEPTH_TEST);
         glClearColor(1,1,1,1);
     }
 };
 
 int main(){
-    Lab2WindowInitParams initialParams("Circle",GLGraphics::Vector2i(1000,1000));
+    Lab2WindowInitParams initialParams("Circle",GLGraphics::Vector2ui(1000,1000));
     Lab2Window window(initialParams);
     window.Run();
     return EXIT_SUCCESS;

@@ -1,11 +1,12 @@
 #pragma once
-#include "Primitives/Object.h"
-#include "WindowInitParams.h"
-#include "Camera.h"
 #include "GL/gl.h"
 #include "GLFW/glfw3.h"
 #include <vector>
+#include "Primitives/Object.h"
+#include "WindowInitParams.h"
+#include "Camera.h"
 #include "Utils/Timer.h"
+#include "Utils/TextRenderer.h"
 
 namespace GLGraphics{
     template<typename WinInitParams>
@@ -63,8 +64,8 @@ namespace GLGraphics{
             }
             glfwSetWindowUserPointer(_window,this);
             glfwMakeContextCurrent(_window);
-            glLoadIdentity();
             params.GLinit();
+            _cam.Init();
         }
 
     };

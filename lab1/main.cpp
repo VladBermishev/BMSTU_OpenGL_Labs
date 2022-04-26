@@ -31,10 +31,26 @@ protected:
         this->AddKeyCallback(Lab1Window::KeyCallback);
     }
 };
+class Lab1WindowInitParams : public GLGraphics::WindowInitParams {
+public:
+    Lab1WindowInitParams() = default;
+
+    Lab1WindowInitParams(const std::string &title, const GLGraphics::Vector2ui &size) : GLGraphics::WindowInitParams(
+            title, size) {}
+
+    void GLinit() const noexcept {
+        if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
+            //LOG SMTH
+            exit(-1);
+        }
+        glEnable(GL_DEPTH_TEST);
+        glClearColor(1, 1, 1, 1);
+    }
+};
+
 
 int main(int argc, char** argv){
-    GLGraphics::WindowInitParams initialParams("Circle",GLGraphics::Vector2i(1000,1000));
-    Lab1Window window(initialParams);
+    Lab1Window window(Lab1WindowInitParams("Circle",GLGraphics::Vector2ui(1000,1000)));
     window.Run();
     return EXIT_SUCCESS;
 }

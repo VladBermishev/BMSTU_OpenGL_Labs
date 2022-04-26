@@ -21,7 +21,7 @@ namespace GLGraphics{
         void ChangeFormOnOpposite(){
             _form = (Form)(1 - (std::int32_t)(_form));
         }
-        void SetVertex(){
+        void SetVertex() final{
             switch (_form) {
                 case Form::SKELETON:
                     SkeletonForm();
