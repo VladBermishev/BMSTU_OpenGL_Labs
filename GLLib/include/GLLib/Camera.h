@@ -10,12 +10,15 @@ namespace GLGraphics{
             glMatrixMode(GL_PROJECTION);
             glLoadMatrixd(_projectionMatrix.data());
         }
+        void ProjectionOrtho(const GLdouble left, const GLdouble right, const GLdouble bottom, const GLdouble top) {
+            _projectionMatrix = Ortho(left,right, bottom, top);
+        }
         void ProjectionIdentity(){
             glMatrixMode(GL_PROJECTION);
             glPushMatrix();
             glLoadIdentity();
             glPushMatrix();
-            glGetDoublev(GL_MODELVIEW_MATRIX,_projectionMatrix.data());
+            glGetDoublev(GL_PROJECTION_MATRIX,_projectionMatrix.data());
             glPopMatrix();
             glPopMatrix();
         }

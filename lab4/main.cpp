@@ -1,45 +1,51 @@
 #include <cstdlib>
+#include <iostream>
 #include "GLLib/GLLib.h"
 template<typename WinInitParams>
-class Lab3Window : public GLGraphics::Window<WinInitParams> {
-    GLGraphics::Label _label1;
+class Lab4Window : public GLGraphics::Window<WinInitParams> {
+    GLGraphics::ComplexPolygon _cp;
 public:
-    explicit Lab3Window(const WinInitParams &params) : GLGraphics::Window<WinInitParams>(params){
+    explicit Lab4Window(const WinInitParams &params) : GLGraphics::Window<WinInitParams>(params){
         InitializeComponents();
     }
 
-    explicit Lab3Window(WinInitParams &&params) : GLGraphics::Window<WinInitParams>(params) {
+    explicit Lab4Window(WinInitParams &&params) : GLGraphics::Window<WinInitParams>(params) {
         InitializeComponents();
     }
 
     inline static void
     KeyCallback(GLFWwindow *window, const int key, const int scancode, const int action, const int mods) {
-        auto *m_window = (Lab3Window *) (glfwGetWindowUserPointer(window));
-        if (key == GLFW_KEY_A) {
-        }
-        if (key == GLFW_KEY_D) {
-        }
-        if (key == GLFW_KEY_W) {
-        }
-        if (key == GLFW_KEY_S) {
-        }
+        auto *m_window = (Lab4Window*) (glfwGetWindowUserPointer(window));
         if (key == GLFW_KEY_X && action == GLFW_PRESS) {
+            m_window->_cp.show_areas() = !m_window->_cp.show_areas();
         }
-        if (key == GLFW_KEY_EQUAL && action == GLFW_PRESS) {
+        if (key == GLFW_KEY_C && action == GLFW_PRESS) {
+            m_window->_cp.fill_polygon() = !m_window->_cp.fill_polygon();
         }
-        if (key == GLFW_KEY_MINUS && action == GLFW_PRESS) {
+    }
+    inline static void
+    MouseCallback(GLFWwindow *window, const int button, const int action, const int mods){
+        auto *m_window = (Lab4Window*) (glfwGetWindowUserPointer(window));
+        if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS){
+            GLGraphics::Vector2<GLdouble> pos;
+            glfwGetCursorPos(window,&pos.x(),&pos.y());
+            pos.y() = m_window->_win_init_params.getSize().y() - static_cast<std::uint32_t>(pos.y());
+            m_window->_cp.AddPoint(GLGraphics::Vector2ui(static_cast<std::uint32_t>(pos.x()),
+                                                         static_cast<std::uint32_t>(pos.y())));
+            printf("%f %f\n",pos.x(),pos.y());
         }
-        if (key == GLFW_KEY_Z && action == GLFW_PRESS){}
+        if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS){
+            m_window->_cp.Clear();
+        }
     }
 
 protected:
     void InitializeComponents() {
-        _label1.text() = "HELLO WORLD!";
-        _label1.scale() = 1;
-        _label1.pos() = GLGraphics::Vector2f(0,0);
-        _label1.color() = GLGraphics::Vector3f(0.5, 0.8f, 0.2f);
-        this->AddObject(_label1);
-        this->AddKeyCallback(Lab3Window::KeyCallback);
+        this->_cam.ProjectionOrtho(0,this->_win_init_params.getSize().x(),
+                                   0,this->_win_init_params.getSize().y());
+        this->AddObject(_cp);
+        this->AddKeyCallback(Lab4Window::KeyCallback);
+        this->AddMouseCallback(Lab4Window::MouseCallback);
     }
 };
 
@@ -55,16 +61,14 @@ public:
             //LOG SMTH
             exit(-1);
         }
-        glEnable(GL_DEPTH_TEST);
         glEnable(GL_CULL_FACE);
         glClearColor(1, 1, 1, 1);
-        GLGraphics::__textRenderer.Init(getSize());
     }
 };
 
 int main() {
     Lab4WindowInitParams initialParams("ConycalCilinder", GLGraphics::Vector2ui(1000, 1000));
-    Lab3Window window(initialParams);
+    Lab4Window window(initialParams);
     window.Run();
     return EXIT_SUCCESS;
 }

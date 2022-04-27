@@ -1,5 +1,7 @@
 #pragma once
 #include <type_traits>
+#include <cstdint>
+#include <GL/gl.h>
 namespace GLGraphics{
     template<typename T=float>
     class Vector3{

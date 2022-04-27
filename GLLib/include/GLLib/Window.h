@@ -13,13 +13,12 @@ namespace GLGraphics{
     class Window{
         GLFWwindow* _window;
         std::vector<Object*> _objects_pull;
-        Timer _timer;
     public:
-        explicit Window(const WinInitParams& params){
-            InitializeWindow(params);
+        explicit Window(const WinInitParams& params):_win_init_params(params){
+            InitializeWindow();
         }
-        explicit Window(WinInitParams&& params){
-            InitializeWindow(params);
+        explicit Window(WinInitParams&& params):_win_init_params(params){
+            InitializeWindow();
         }
         void Run(){
             while(!glfwWindowShouldClose(_window)){
@@ -39,32 +38,27 @@ namespace GLGraphics{
         }
     protected:
         GLGraphics::Camera _cam;
+        WinInitParams _win_init_params;
         void AddObject(Object& obj){ _objects_pull.push_back(&obj); }
         void AddKeyCallback(void (*f)(GLFWwindow*,int,int,int,int)){glfwSetKeyCallback(_window,f);}
+        void AddMouseCallback(void (*f)(GLFWwindow*,int,int,int)){glfwSetMouseButtonCallback(_window,f);}
+
     private:
         void InitializeComponents(){}
-        void InitializeWindow(const WinInitParams& params){
+        void InitializeWindow(){
             if(!glfwInit()){ exit(EXIT_FAILURE); }
-            _window = glfwCreateWindow(params.getSize().x(), params.getSize().y(), params.getTitle().c_str(), NULL, NULL);
+            _window = glfwCreateWindow(_win_init_params.getSize().x(),
+                                       _win_init_params.getSize().y(),
+                                       _win_init_params.getTitle().c_str(),
+                                       NULL, NULL);
+
             if (!_window){
                 glfwTerminate();
                 exit(EXIT_FAILURE);
             }
             glfwSetWindowUserPointer(_window,this);
             glfwMakeContextCurrent(_window);
-            params.GLinit();
-            _cam.Init();
-        }
-        void InitializeWindow(WinInitParams&& params){
-            if(!glfwInit()){ exit(EXIT_FAILURE); }
-            _window = glfwCreateWindow(params.getSize().x(), params.getSize().y(), params.getTitle().c_str(), NULL, NULL);
-            if (!_window){
-                glfwTerminate();
-                exit(EXIT_FAILURE);
-            }
-            glfwSetWindowUserPointer(_window,this);
-            glfwMakeContextCurrent(_window);
-            params.GLinit();
+            _win_init_params.GLinit();
             _cam.Init();
         }
 
