@@ -35,7 +35,6 @@ public:
             pos.y() = m_window->_window_size.y() - static_cast<std::uint32_t>(pos.y());
             m_window->_cp.AddPoint(GLGraphics::Vector2ui(static_cast<std::uint32_t>(pos.x()),
                                                          static_cast<std::uint32_t>(pos.y())));
-            printf("%f %f\n",pos.x(),pos.y());
         }
         if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS){
             m_window->_cp.Clear();
@@ -85,4 +84,3 @@ int main() {
     window.Run();
     return EXIT_SUCCESS;
 }
-//заполнения многоугольника по ребрам, постфильтрация с взвешенным усреднением области 3x3, целочисленный алгоритм Брезенхема

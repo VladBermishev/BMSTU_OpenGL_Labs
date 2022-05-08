@@ -5,6 +5,7 @@
 #include <GLLib/Primitives/Circle.h>
 #include <GLLib/Primitives/Object.h>
 #include <vector>
+#include <iostream>
 #include <chrono>
 
 namespace GLGraphics {

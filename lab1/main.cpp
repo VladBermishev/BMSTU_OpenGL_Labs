@@ -15,18 +15,15 @@ public:
         auto *m_window = (Lab1Window *) (glfwGetWindowUserPointer(window));
         if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) { m_window->_circle.SetColor(1, 1, 0); }
         if (key == GLFW_KEY_W && action == GLFW_PRESS) { m_window->_circle.ModelViewTranslate(0.f, 0.05f,0.f); }
-        if (key == GLFW_KEY_W && action == GLFW_RELEASE) { m_window->_circle.ModelViewTranslate(0.f, -0.05f,0); }
         if (key == GLFW_KEY_A && action == GLFW_PRESS) { m_window->_circle.ModelViewTranslate(-0.05f, 0.0f,0); }
-        if (key == GLFW_KEY_A && action == GLFW_RELEASE) { m_window->_circle.ModelViewTranslate(0.05f, 0.0f,0); }
         if (key == GLFW_KEY_S && action == GLFW_PRESS) { m_window->_circle.ModelViewTranslate(0.f, -0.05f,0); }
-        if (key == GLFW_KEY_S && action == GLFW_RELEASE) { m_window->_circle.ModelViewTranslate(0.f, 0.05f,0); }
         if (key == GLFW_KEY_D && action == GLFW_PRESS) { m_window->_circle.ModelViewTranslate(0.05f, 0.f,0); }
-        if (key == GLFW_KEY_D && action == GLFW_RELEASE) { m_window->_circle.ModelViewTranslate(-0.05f, 0.f,0); }
     }
 
 protected:
     void InitializeComponents() {
         _circle.SetColor(1,0,0);
+        _circle.ModelViewRotate(90,1,0,0);
         this->AddObject(_circle);
         this->AddKeyCallback(Lab1Window::KeyCallback);
     }
