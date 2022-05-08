@@ -26,7 +26,6 @@ namespace GLGraphics{
                 for(const auto& obj: _objects_pull){
                     _cam.SetMatrix();
                     obj->Draw();
-                    glFlush();
                 }
                 glfwSwapBuffers(_window);
                 glfwPollEvents();
@@ -39,14 +38,17 @@ namespace GLGraphics{
     protected:
         GLGraphics::Camera _cam;
         WinInitParams _win_init_params;
+        Vector2ui _window_size;
         void AddObject(Object& obj){ _objects_pull.push_back(&obj); }
         void AddKeyCallback(void (*f)(GLFWwindow*,int,int,int,int)){glfwSetKeyCallback(_window,f);}
         void AddMouseCallback(void (*f)(GLFWwindow*,int,int,int)){glfwSetMouseButtonCallback(_window,f);}
-
+        void AddWindowResizeCallback(void (*f)(GLFWwindow*,int,int)){ glfwSetWindowSizeCallback(_window,f);}
     private:
         void InitializeComponents(){}
         void InitializeWindow(){
             if(!glfwInit()){ exit(EXIT_FAILURE); }
+            //glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, 1);
+            glfwWindowHint( GLFW_DOUBLEBUFFER,GL_TRUE );
             _window = glfwCreateWindow(_win_init_params.getSize().x(),
                                        _win_init_params.getSize().y(),
                                        _win_init_params.getTitle().c_str(),
@@ -58,6 +60,8 @@ namespace GLGraphics{
             }
             glfwSetWindowUserPointer(_window,this);
             glfwMakeContextCurrent(_window);
+            glfwSwapInterval(0);
+            _window_size = _win_init_params.getSize();
             _win_init_params.GLinit();
             _cam.Init();
         }

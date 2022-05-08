@@ -16,11 +16,14 @@ public:
     inline static void
     KeyCallback(GLFWwindow *window, const int key, const int scancode, const int action, const int mods) {
         auto *m_window = (Lab4Window*) (glfwGetWindowUserPointer(window));
-        if (key == GLFW_KEY_X && action == GLFW_PRESS) {
+        if (key == GLFW_KEY_Z && action == GLFW_PRESS) {
             m_window->_cp.show_areas() = !m_window->_cp.show_areas();
         }
-        if (key == GLFW_KEY_C && action == GLFW_PRESS) {
+        if (key == GLFW_KEY_X && action == GLFW_PRESS) {
             m_window->_cp.fill_polygon() = !m_window->_cp.fill_polygon();
+        }
+        if (key == GLFW_KEY_C && action == GLFW_PRESS) {
+            m_window->_cp.convolution_enabled() = !m_window->_cp.convolution_enabled();
         }
     }
     inline static void
@@ -29,7 +32,7 @@ public:
         if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS){
             GLGraphics::Vector2<GLdouble> pos;
             glfwGetCursorPos(window,&pos.x(),&pos.y());
-            pos.y() = m_window->_win_init_params.getSize().y() - static_cast<std::uint32_t>(pos.y());
+            pos.y() = m_window->_window_size.y() - static_cast<std::uint32_t>(pos.y());
             m_window->_cp.AddPoint(GLGraphics::Vector2ui(static_cast<std::uint32_t>(pos.x()),
                                                          static_cast<std::uint32_t>(pos.y())));
             printf("%f %f\n",pos.x(),pos.y());
@@ -37,6 +40,15 @@ public:
         if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS){
             m_window->_cp.Clear();
         }
+    }
+    inline static void ResizeCallback(GLFWwindow* window, const int width, const int height){
+        auto* m_window = (Lab4Window*)(glfwGetWindowUserPointer(window));
+        m_window->_cam.ProjectionOrtho(0,width,0,height);
+        const GLfloat x_scale = width/static_cast<GLfloat>(m_window->_window_size.x());
+        const GLfloat y_scale = height/static_cast<GLfloat>(m_window->_window_size.y());
+        m_window->_cp.Resize(x_scale,y_scale);
+        glViewport(0, 0, width, height);
+        m_window->_window_size = GLGraphics::Vector2ui(width,height);
     }
 
 protected:
@@ -46,6 +58,7 @@ protected:
         this->AddObject(_cp);
         this->AddKeyCallback(Lab4Window::KeyCallback);
         this->AddMouseCallback(Lab4Window::MouseCallback);
+        this->AddWindowResizeCallback(Lab4Window::ResizeCallback);
     }
 };
 
