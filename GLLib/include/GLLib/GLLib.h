@@ -15,6 +15,7 @@
 #include "Primitives/Circle.h"
 #include "Primitives/ConycalCilinder.h"
 #include "Primitives/ComplexPolygon.h"
+#include "Primitives/PolygonClip.h"
 #include "Utils/Timer.h"
 #include "Utils/TextRenderer.h"
 #include "UI/Label.h"

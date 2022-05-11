@@ -5,7 +5,6 @@
 #include <GLLib/Primitives/Circle.h>
 #include <GLLib/Primitives/Object.h>
 #include <vector>
-#include <iostream>
 #include <chrono>
 
 namespace GLGraphics {
@@ -23,10 +22,7 @@ namespace GLGraphics {
         }
 
         void SetVertex() final {
-            typedef std::chrono::high_resolution_clock Time;
-            typedef std::chrono::milliseconds ms;
-            typedef std::chrono::duration<float> fsec;
-            auto t0 = Time::now();
+            auto t0 = std::chrono::high_resolution_clock::now();
             for (std::uint32_t i = 0; _points.size() > 1 && i < _points.size() - 1; i++) {
                 DrawLineBresenham(_points[i], _points[i + 1]);
             }
@@ -39,7 +35,7 @@ namespace GLGraphics {
             if (_show_areas) {
                 for (const auto &pos: _points) { DrawCircle(pos); }
             }
-            std::cout << std::chrono::duration_cast<ms>(Time::now() - t0).count() << "ms\n";
+            printf("%ld ms\n",std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - t0).count());
         }
 
 

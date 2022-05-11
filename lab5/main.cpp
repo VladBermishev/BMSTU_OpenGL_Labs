@@ -3,7 +3,7 @@
 #include "GLLib/GLLib.h"
 template<typename WinInitParams>
 class Lab4Window : public GLGraphics::Window<WinInitParams> {
-    GLGraphics::ComplexPolygon _cp;
+    GLGraphics::PolygonClip _pc;
 public:
     explicit Lab4Window(const WinInitParams &params) : GLGraphics::Window<WinInitParams>(params){
         InitializeComponents();
@@ -17,13 +17,16 @@ public:
     KeyCallback(GLFWwindow *window, const int key, const int scancode, const int action, const int mods) {
         auto *m_window = (Lab4Window*) (glfwGetWindowUserPointer(window));
         if (key == GLFW_KEY_Z && action == GLFW_PRESS) {
-            m_window->_cp.show_areas() = !m_window->_cp.show_areas();
+            m_window->_pc.show_areas() = !m_window->_pc.show_areas();
         }
         if (key == GLFW_KEY_X && action == GLFW_PRESS) {
-            m_window->_cp.fill_polygon() = !m_window->_cp.fill_polygon();
+            m_window->_pc.fill_polygon() = !m_window->_pc.fill_polygon();
         }
         if (key == GLFW_KEY_C && action == GLFW_PRESS) {
-            m_window->_cp.convolution_enabled() = !m_window->_cp.convolution_enabled();
+            m_window->_pc.convolution_enabled() = !m_window->_pc.convolution_enabled();
+        }
+        if (key == GLFW_KEY_V && action == GLFW_PRESS) {
+            m_window->_pc.clip_line() = !m_window->_pc.clip_line();
         }
     }
     inline static void
@@ -33,11 +36,11 @@ public:
             GLGraphics::Vector2<GLdouble> pos;
             glfwGetCursorPos(window,&pos.x(),&pos.y());
             pos.y() = m_window->_window_size.y() - static_cast<std::uint32_t>(pos.y());
-            m_window->_cp.AddPoint(GLGraphics::Vector2ui(static_cast<std::uint32_t>(pos.x()),
+            m_window->_pc.AddPoint(GLGraphics::Vector2ui(static_cast<std::uint32_t>(pos.x()),
                                                          static_cast<std::uint32_t>(pos.y())));
         }
         if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS){
-            m_window->_cp.Clear();
+            m_window->_pc.Clear();
         }
     }
     inline static void ResizeCallback(GLFWwindow* window, const int width, const int height){
@@ -45,7 +48,7 @@ public:
         m_window->_cam.ProjectionOrtho(0,width,0,height);
         const GLfloat x_scale = width/static_cast<GLfloat>(m_window->_window_size.x());
         const GLfloat y_scale = height/static_cast<GLfloat>(m_window->_window_size.y());
-        m_window->_cp.Resize(x_scale,y_scale);
+        m_window->_pc.Resize(x_scale,y_scale);
         glViewport(0, 0, width, height);
         m_window->_window_size = GLGraphics::Vector2ui(width,height);
     }
@@ -54,7 +57,7 @@ protected:
     void InitializeComponents() {
         this->_cam.ProjectionOrtho(0,this->_win_init_params.getSize().x(),
                                    0,this->_win_init_params.getSize().y());
-        this->AddObject(_cp);
+        this->AddObject(_pc);
         this->AddKeyCallback(Lab4Window::KeyCallback);
         this->AddMouseCallback(Lab4Window::MouseCallback);
         this->AddWindowResizeCallback(Lab4Window::ResizeCallback);
@@ -79,7 +82,7 @@ public:
 };
 
 int main() {
-    Lab4WindowInitParams initialParams("ComplexPolygon", GLGraphics::Vector2ui(1000, 1000));
+    Lab4WindowInitParams initialParams("PolygonClip", GLGraphics::Vector2ui(1000, 1000));
     Lab4Window window(initialParams);
     window.Run();
     return EXIT_SUCCESS;

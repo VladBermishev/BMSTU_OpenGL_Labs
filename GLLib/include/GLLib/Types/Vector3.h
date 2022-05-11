@@ -13,6 +13,10 @@ namespace GLGraphics{
         explicit Vector3(const T x, const T y, const T z) noexcept: _x(x),_y(y),_z(z){
             static_assert(std::is_arithmetic_v<T>, "Arithmetic required.");
         }
+
+        template<typename F>
+        explicit Vector3(const Vector3<F>& vec ){_x = vec.x();_y = vec.y();_z = vec.z();}
+
         inline T  x()const noexcept{return _x;}
         inline T& x()noexcept{return _x;}
         inline T  y()const noexcept{return _y;}
