@@ -5,6 +5,8 @@
 #include "../Types/Vertex3.h"
 #include <cstdint>
 #include <cmath>
+#include <vector>
+#include <map>
 
 namespace GLGraphics{
     class ConycalCilinder: public GLGraphics::Object{
